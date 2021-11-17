@@ -20,6 +20,15 @@ class AppTheme {
     );
   }
 
+  static Theme dialogTheme(Widget child) {
+    return Theme(
+      child: child,
+      data: ThemeData(
+        primaryColor: kPrimaryColor,
+      ),
+    );
+  }
+
   static ThemeData light() {
     return ThemeData(
       textTheme: lightTextTheme(),
@@ -31,23 +40,30 @@ class AppTheme {
         color: kPrimaryColor,
         size: 24.sp,
       ),
-      appBarTheme: AppBarTheme(
-        toolbarHeight: 67.h,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        titleTextStyle: TextStyle(
-          fontFamily: "Roboto",
-          fontWeight: FontWeight.w500,
-          fontSize: 18.sp,
-          color: kPrimaryColor,
-        ),
-        shadowColor: Colors.transparent,
-        foregroundColor: kPrimaryColor,
-        elevation: 0,
-        actionsIconTheme: IconThemeData(
-          size: 33.w,
-        ),
+      dividerColor: kPrimaryLightColor.withOpacity(0.1),
+      dividerTheme: DividerThemeData(
+        indent: 0,
+        thickness: 1.5.h,
+        space: 0,
+        color: kPrimaryColor.withOpacity(0.1),
       ),
+      appBarTheme: AppBarTheme(
+          toolbarHeight: 67.h,
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            fontFamily: "Roboto",
+            fontWeight: FontWeight.w500,
+            fontSize: 18.sp,
+            color: kPrimaryColor,
+          ),
+          shadowColor: Colors.transparent,
+          foregroundColor: kPrimaryColor,
+          elevation: 0,
+          actionsIconTheme: IconThemeData(
+            size: 33.w,
+          ),
+          iconTheme: IconThemeData(size: 33.w)),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           primary: Colors.white,
@@ -90,6 +106,11 @@ class AppTheme {
           fontWeight: FontWeight.w500,
         ),
         unselectedLabelColor: Colors.white,
+      ),
+      dialogTheme: DialogTheme(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.sp),
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:toto_app/src/ui/screens/screens.dart';
 
 import '../../resources/data/models.dart';
 import '../../utils/constants.dart';
@@ -41,7 +42,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: _buildBottomButton(),
+      floatingActionButton: _buildBottomButton(context),
     );
   }
 
@@ -79,7 +80,8 @@ class HomeScreen extends StatelessWidget {
               return TodoCard(
                 todo: todos[index],
                 onEditTapped: () {},
-                onFinished: () {},
+                onFinishTapped: () {},
+                onTapped: () {},
               );
             },
             itemCount: todos.length,
@@ -94,10 +96,18 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  TextButton _buildBottomButton() {
+  TextButton _buildBottomButton(BuildContext context) {
     return TextButton.icon(
       onPressed: () {
         // TODO: Navigate to Add Todo Screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return TaskScreen();
+            },
+          ),
+        );
       },
       icon: const Icon(Icons.add_box_rounded),
       label: const Text(
