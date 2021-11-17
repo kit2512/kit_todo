@@ -6,13 +6,13 @@ import 'package:toto_app/src/resources/data/models.dart';
 
 class TodoCard extends StatelessWidget {
   final Todo todo;
-  final Function onFinished;
+  final Function onFinishTapped;
   final Function onEditTapped;
   final Function onTapped;
 
   const TodoCard({
     required this.todo,
-    required this.onFinished,
+    required this.onFinishTapped,
     required this.onEditTapped,
     required this.onTapped,
     Key? key,
