@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:toto_app/src/ui/shared/todo_config_item.dart';
 import 'package:toto_app/src/utils/theme.dart';
 
 class CustomTimePicker extends StatefulWidget {
@@ -26,30 +27,33 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          _seletedTime.format(context),
-          style: TextStyle(fontSize: 16.sp),
-        ),
-        IconButton(
-          onPressed: () async {
-            final selectedTime = await showTimePicker(
-              context: context,
-              initialTime: TimeOfDay.now(),
-              builder: (context, child) {
-                return AppTheme.dialogTheme(child as Widget);
-              },
-            );
-            setState(() {
-              _seletedTime = selectedTime ?? TimeOfDay.now();
-              widget.onTimeSelected(_seletedTime);
-            });
-          },
-          icon: const Icon(Icons.schedule_rounded),
-        ),
-      ],
+    return TodoConfigItem(
+      title: "Due time",
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            _seletedTime.format(context),
+            style: TextStyle(fontSize: 16.sp),
+          ),
+          IconButton(
+            onPressed: () async {
+              final selectedTime = await showTimePicker(
+                context: context,
+                initialTime: TimeOfDay.now(),
+                builder: (context, child) {
+                  return AppTheme.dialogTheme(child as Widget);
+                },
+              );
+              setState(() {
+                _seletedTime = selectedTime ?? TimeOfDay.now();
+                widget.onTimeSelected(_seletedTime);
+              });
+            },
+            icon: const Icon(Icons.schedule_rounded),
+          ),
+        ],
+      ),
     );
   }
 }

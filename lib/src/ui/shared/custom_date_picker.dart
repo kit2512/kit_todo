@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:toto_app/src/ui/shared/todo_config_item.dart';
 import 'package:toto_app/src/utils/theme.dart';
 
 class CustomDatePicker extends StatefulWidget {
@@ -44,18 +45,21 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          DateFormat("dd MMM yyyy").format(_selectedDate),
-          style: TextStyle(fontSize: 16.sp),
-        ),
-        IconButton(
-          onPressed: onPressed,
-          icon: const Icon(Icons.calendar_today_outlined),
-        ),
-      ],
+    return TodoConfigItem(
+      title: "Due date",
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            DateFormat("dd MMM yyyy").format(_selectedDate),
+            style: TextStyle(fontSize: 16.sp),
+          ),
+          IconButton(
+            onPressed: onPressed,
+            icon: const Icon(Icons.calendar_today_outlined),
+          ),
+        ],
+      ),
     );
   }
 }

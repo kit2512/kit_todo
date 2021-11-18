@@ -39,7 +39,7 @@ class TodoConfigItem extends StatelessWidget {
           height: contentBottomPadding ?? 8.h,
         ),
         if (showDivider)
-          Divider(
+          const Divider(
             color: kPrimaryLightColor,
           ),
         SizedBox(

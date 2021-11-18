@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:toto_app/src/ui/shared/todo_config_item.dart';
 import 'package:toto_app/src/utils/theme.dart';
 
 import 'dart:math';
@@ -145,7 +146,6 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _selectedColor = widget.initalColor;
   }
@@ -177,25 +177,28 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          height: 30.h,
-          width: 60.w,
-          decoration: BoxDecoration(
-            color: _selectedColor,
-            borderRadius: BorderRadius.circular(6.sp),
+    return TodoConfigItem(
+      title: "Color",
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            height: 30.h,
+            width: 60.w,
+            decoration: BoxDecoration(
+              color: _selectedColor,
+              borderRadius: BorderRadius.circular(6.sp),
+            ),
           ),
-        ),
-        IconButton(
-          onPressed: onPressed,
-          icon: Icon(
-            Icons.color_lens_outlined,
-            color: _selectedColor,
-          ),
-        )
-      ],
+          IconButton(
+            onPressed: onPressed,
+            icon: Icon(
+              Icons.color_lens_outlined,
+              color: _selectedColor,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

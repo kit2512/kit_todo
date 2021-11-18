@@ -1,27 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:toto_app/src/ui/screens/screens.dart';
+import 'package:provider/provider.dart';
+import 'package:toto_app/src/ui/providers/providers.dart';
+import 'package:toto_app/src/ui/screens/todo_screen.dart';
 
 import '../../resources/data/models.dart';
 import '../../utils/constants.dart';
 
 import '../shared/components.dart';
 
-List<Todo> todos = <Todo>[
-  Todo(name: "Task 1", dueDate: DateTime(2021, 10, 12, 7, 30), id: 0),
-  Todo(name: "Task 2", dueDate: DateTime(2021, 10, 12, 7, 30), id: 1),
-  Todo(name: "Task 3", dueDate: DateTime(2021, 10, 12, 7, 30), id: 2),
-  Todo(name: "Task 3", dueDate: DateTime(2021, 10, 12, 7, 30), id: 2),
-  Todo(name: "Task 3", dueDate: DateTime(2021, 10, 12, 7, 30), id: 2),
-];
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  void navigateToTodoScreen(BuildContext context, bool isUpdating,
+      {Todo? originalTodo}) async {
+    assert(isUpdating == false || originalTodo != null,
+        "originalTodo must be provided if isUpdating is true");
+    final newTodo = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return TodoScreen(
+            isUpdating: isUpdating,
+            originalTodo: originalTodo,
+          );
+        },
+      ),
+    );
+    if (isUpdating && newTodo != null) {
+      Provider.of<TodoManager>(context, listen: false)
+          .upDateTodo(originalTodo!.id, newTodo);
+    } else if (newTodo != null) {
+      Provider.of<TodoManager>(context, listen: false).addTodo(newTodo);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(context),
       body: Padding(
         padding: EdgeInsets.only(
           top: 30.h,
@@ -46,73 +63,29 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Column _buildTodoView() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          direction: Axis.horizontal,
-          children: [
-            ChoiceChip(
-              selected: true,
-              label: Text("Today"),
-              onSelected: (selected) {},
-            ),
-            ChoiceChip(
-              selected: false,
-              label: Text("Upcoming"),
-              onSelected: (selected) {},
-            ),
-            ChoiceChip(
-              selected: false,
-              label: Text("Finished"),
-              onSelected: (selected) {},
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 23.h,
-        ),
-        Expanded(
-          child: ListView.separated(
-            itemBuilder: (context, index) {
-              return TodoCard(
-                todo: todos[index],
-                onEditTapped: () {},
-                onFinishTapped: () {},
-                onTapped: () {},
-              );
-            },
-            itemCount: todos.length,
-            separatorBuilder: (context, _) {
-              return SizedBox(
-                height: 23.h,
-              );
-            },
+  CustomAppBar _buildAppBar(BuildContext context) {
+    return CustomAppBar(
+      title: const Text("Task Manager"),
+      leading: GestureDetector(
+        child: const CircleAvatar(
+          backgroundColor: kPrimaryColor,
+          child: Icon(
+            Icons.widgets_rounded,
+            color: Colors.white,
           ),
-        )
-      ],
-    );
-  }
-
-  TextButton _buildBottomButton(BuildContext context) {
-    return TextButton.icon(
-      onPressed: () {
-        // TODO: Navigate to Add Todo Screen
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return TaskScreen();
-            },
-          ),
-        );
-      },
-      icon: const Icon(Icons.add_box_rounded),
-      label: const Text(
-        "Add Task",
+        ),
+        onTap: () {
+          // TODO: Open Profile
+        },
       ),
+      actions: [
+        GestureDetector(
+          onTap: () {
+            // TODO: Open Notification
+          },
+          child: const Icon(Icons.notifications_none_rounded),
+        ),
+      ],
     );
   }
 
@@ -140,9 +113,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         InkWell(
-          onTap: () {
-            // TODO handle showing search
-          },
+          onTap: () {},
           child: Container(
             decoration: const BoxDecoration(
                 shape: BoxShape.circle, color: kPrimaryColor),
@@ -155,29 +126,75 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  CustomAppBar _buildAppBar() {
-    return CustomAppBar(
-      title: const Text("Task Manager"),
-      leading: GestureDetector(
-        child: const CircleAvatar(
-          backgroundColor: kPrimaryColor,
-          child: Icon(
-            Icons.widgets_rounded,
-            color: Colors.white,
+  Column _buildTodoView() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          direction: Axis.horizontal,
+          children: [
+            ChoiceChip(
+              selected: true,
+              label: const Text("Today"),
+              onSelected: (selected) {},
+            ),
+            ChoiceChip(
+              selected: false,
+              label: const Text("Upcoming"),
+              onSelected: (selected) {},
+            ),
+            ChoiceChip(
+              selected: false,
+              label: const Text("Finished"),
+              onSelected: (selected) {},
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 23.h,
+        ),
+        Expanded(
+          child: Consumer<TodoManager>(
+            builder: (context, snapshot, child) {
+              final todos = snapshot.todos;
+              return ListView.separated(
+                itemBuilder: (context, index) {
+                  return TodoCard(
+                    todo: todos[index],
+                    onTapped: () {
+                      navigateToTodoScreen(context, true,
+                          originalTodo: todos[index]);
+                    },
+                    onCompleteTapped: () {
+                      snapshot.completeTodo(todos[index], null);
+                    },
+                    onDismissed: (_) {
+                      snapshot.deleteTodo(todos[index]);
+                    },
+                  );
+                },
+                itemCount: todos.length,
+                separatorBuilder: (context, _) {
+                  return SizedBox(
+                    height: 23.h,
+                  );
+                },
+              );
+            },
           ),
-        ),
-        onTap: () {
-          // TODO: Navigate to Profile
-        },
-      ),
-      actions: [
-        GestureDetector(
-          onTap: () {
-            // TODO: Open Notification
-          },
-          child: const Icon(Icons.notifications_none_rounded),
-        ),
+        )
       ],
+    );
+  }
+
+  TextButton _buildBottomButton(BuildContext context) {
+    return TextButton.icon(
+      onPressed: () {
+        navigateToTodoScreen(context, false);
+      },
+      icon: const Icon(Icons.add_box_rounded),
+      label: const Text("Add Task"),
     );
   }
 }
