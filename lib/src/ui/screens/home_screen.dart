@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo_app/src/ui/screens/empty_screen.dart';
+import '../../utils/screen_utils/custom_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:toto_app/src/ui/providers/providers.dart';
-import 'package:toto_app/src/ui/screens/todo_screen.dart';
+import 'package:todo_app/src/ui/providers/providers.dart';
+import 'package:todo_app/src/ui/screens/todo_screen.dart';
 
 import '../../resources/data/models.dart';
 import '../../utils/constants.dart';
@@ -53,7 +54,7 @@ class HomeScreen extends StatelessWidget {
               height: 28.h,
             ),
             Expanded(
-              child: _buildTodoView(),
+              child: _buildTodoTabView(context),
             )
           ],
         ),
@@ -113,7 +114,9 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            // Open Search
+          },
           child: Container(
             decoration: const BoxDecoration(
                 shape: BoxShape.circle, color: kPrimaryColor),
@@ -126,65 +129,63 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Column _buildTodoView() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          direction: Axis.horizontal,
+  Widget _buildTodoTabView(BuildContext context) {
+    return Consumer<TodoManager>(
+      builder: (context, snapshot, child) {
+        final todos = snapshot.selectedTodos;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ChoiceChip(
-              selected: true,
-              label: const Text("Today"),
-              onSelected: (selected) {},
+            Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              direction: Axis.horizontal,
+              children: Categories.values.map((e) {
+                return ChoiceChip(
+                  selected: e == snapshot.selectedCategory,
+                  label: Text(e.toString().split(".").last),
+                  onSelected: (_) {
+                    snapshot.selectCategory(e);
+                  },
+                );
+              }).toList(),
             ),
-            ChoiceChip(
-              selected: false,
-              label: const Text("Upcoming"),
-              onSelected: (selected) {},
+            SizedBox(
+              height: 23.h,
             ),
-            ChoiceChip(
-              selected: false,
-              label: const Text("Finished"),
-              onSelected: (selected) {},
-            ),
+            Expanded(
+              child: _buldTodoList(todos, snapshot),
+            )
           ],
-        ),
-        SizedBox(
+        );
+      },
+    );
+  }
+
+  Widget _buldTodoList(List<Todo> todos, TodoManager snapshot) {
+    if (todos.isEmpty) {
+      return EmptyScreen();
+    }
+    return ListView.separated(
+      itemBuilder: (context, index) {
+        return TodoCard(
+          todo: todos[index],
+          onTapped: () {
+            navigateToTodoScreen(context, true, originalTodo: todos[index]);
+          },
+          onCompleteTapped: () {
+            snapshot.completeTodo(todos[index], null);
+          },
+          onDismissed: (_) {
+            snapshot.deleteTodo(todos[index]);
+          },
+        );
+      },
+      itemCount: todos.length,
+      separatorBuilder: (context, _) {
+        return SizedBox(
           height: 23.h,
-        ),
-        Expanded(
-          child: Consumer<TodoManager>(
-            builder: (context, snapshot, child) {
-              final todos = snapshot.todos;
-              return ListView.separated(
-                itemBuilder: (context, index) {
-                  return TodoCard(
-                    todo: todos[index],
-                    onTapped: () {
-                      navigateToTodoScreen(context, true,
-                          originalTodo: todos[index]);
-                    },
-                    onCompleteTapped: () {
-                      snapshot.completeTodo(todos[index], null);
-                    },
-                    onDismissed: (_) {
-                      snapshot.deleteTodo(todos[index]);
-                    },
-                  );
-                },
-                itemCount: todos.length,
-                separatorBuilder: (context, _) {
-                  return SizedBox(
-                    height: 23.h,
-                  );
-                },
-              );
-            },
-          ),
-        )
-      ],
+        );
+      },
     );
   }
 

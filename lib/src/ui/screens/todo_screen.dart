@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../utils/screen_utils/custom_screenutil.dart';
 import 'dart:math';
 
 import '../../resources/validators/validators.dart';

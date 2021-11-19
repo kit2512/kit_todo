@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:toto_app/src/ui/providers/providers.dart';
-import 'package:toto_app/src/utils/theme.dart';
+import 'utils/screen_utils/custom_screenutil.dart';
+import 'package:todo_app/src/ui/providers/providers.dart';
+import 'package:todo_app/src/ui/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 import './ui/screens/screens.dart';

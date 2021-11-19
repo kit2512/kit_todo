@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:toto_app/src/utils/constants.dart';
+import '../../utils/screen_utils/custom_screenutil.dart';
+import 'package:todo_app/src/utils/constants.dart';
 
 class TodoConfigItem extends StatelessWidget {
   final Widget child;

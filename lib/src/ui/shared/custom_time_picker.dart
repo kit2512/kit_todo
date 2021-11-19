@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:toto_app/src/ui/shared/todo_config_item.dart';
-import 'package:toto_app/src/utils/theme.dart';
+import '../../utils/screen_utils/custom_screenutil.dart';
+import 'package:todo_app/src/ui/shared/todo_config_item.dart';
+import 'package:todo_app/src/ui/theme/theme.dart';
 
 class CustomTimePicker extends StatefulWidget {
   final TimeOfDay initialTime;
@@ -50,7 +50,10 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
                 widget.onTimeSelected(_seletedTime);
               });
             },
-            icon: const Icon(Icons.schedule_rounded),
+            icon: Icon(
+              Icons.schedule_rounded,
+              size: 24.sp,
+            ),
           ),
         ],
       ),
