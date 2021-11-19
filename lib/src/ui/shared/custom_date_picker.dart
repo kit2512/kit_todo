@@ -7,10 +7,10 @@ import 'package:todo_app/src/ui/theme/theme.dart';
 
 class CustomDatePicker extends StatefulWidget {
   final DateTime initialDate;
-  final Function(DateTime) onDateSeleted1;
+  final Function(DateTime) onDateSeleted;
   const CustomDatePicker({
     required this.initialDate,
-    required this.onDateSeleted1,
+    required this.onDateSeleted,
     Key? key,
   }) : super(key: key);
 
@@ -41,7 +41,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     setState(() {
       _selectedDate = seletedDate ?? widget.initialDate;
     });
-    widget.onDateSeleted1(_selectedDate);
+    widget.onDateSeleted(_selectedDate);
   }
 
   @override
