@@ -163,7 +163,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buldTodoList(List<Todo> todos, TodoManager snapshot) {
     if (todos.isEmpty) {
-      return EmptyScreen();
+      return const EmptyScreen();
     }
     return ListView.separated(
       itemBuilder: (context, index) {

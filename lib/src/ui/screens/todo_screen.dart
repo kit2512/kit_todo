@@ -66,7 +66,7 @@ class _TodoScreenState extends State<TodoScreen> {
   void _onBottomButtonPressed(BuildContext context, Todo? originalToDo) {
     if (isValidTodoConfig()) {
       final newTodo = Todo(
-        id: Random().nextDouble().round(),
+        id: (Random().nextDouble() * 1000).round(),
         name: _nameController.text,
         dueDate: _dueDate,
         color: _color,
