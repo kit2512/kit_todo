@@ -4,7 +4,7 @@ import 'todo_config_item.dart';
 
 class CustomLevelSelect extends StatelessWidget {
   final Level initialLevel;
-  final Function(Level) onLevelSelected;
+  final void Function(Level) onLevelSelected;
 
   const CustomLevelSelect({
     Key? key,

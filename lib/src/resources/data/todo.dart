@@ -23,19 +23,6 @@ class Todo {
     TimeOfDay? dueTime,
   }) : dueTime = dueTime ?? TimeOfDay.now();
 
-  @override
-  bool operator ==(other) {
-    return other is Todo && other.hashCode == hashCode;
-  }
-
-  @override
-  int get hashCode {
-    int result = 17;
-    result = 37 * id.hashCode;
-    result = 37 * dueDate.second.hashCode;
-    return result;
-  }
-
   Todo copyWith({
     int? id,
     String? name,
