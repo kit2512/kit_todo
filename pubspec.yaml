@@ -1,4 +1,4 @@
-name: toto_app
+name: todo_app
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -30,7 +30,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  flutter_screenutil: ^5.0.0+2
   intl: ^0.17.0
   provider: ^6.0.1
 

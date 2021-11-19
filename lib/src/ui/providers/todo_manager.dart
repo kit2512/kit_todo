@@ -1,5 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:toto_app/src/resources/data/models.dart';
+import 'package:todo_app/src/resources/data/models.dart';
+
+enum Categories {
+  all,
+  today,
+  completed,
+}
 
 class TodoManager extends ChangeNotifier {
   final List<Todo> _todos = <Todo>[
@@ -33,17 +40,26 @@ class TodoManager extends ChangeNotifier {
         name: "Task 5",
         dueDate: DateTime(2021, 10, 12, 7, 30),
         id: 4,
-        color: const Color(0xffffe0b2))
+        color: const Color(0xffffe0b2)),
   ];
 
-  int _selectedTodo = 0;
+  Categories _selectedCategory = Categories.all;
 
-  List<Todo> get todos => _todos;
-  Todo get currentTodo => _todos[_selectedTodo];
+  Categories get selectedCategory => _selectedCategory;
 
-  void goToTodo(int index) {
-    _selectedTodo = index;
+  void selectCategory(Categories category) {
+    _selectedCategory = category;
     notifyListeners();
+  }
+
+  List<Todo> get selectedTodos {
+    if (_selectedCategory == Categories.completed) {
+      return _todos.where((element) => element.isComplete).toList();
+    } else if (_selectedCategory == Categories.today) {
+      return _todos;
+    } else {
+      return _todos;
+    }
   }
 
   void upDateTodo(int id, Todo newTodo) {

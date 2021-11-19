@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:toto_app/src/ui/shared/todo_config_item.dart';
-import 'package:toto_app/src/utils/theme.dart';
+import '../../utils/screen_utils/custom_screenutil.dart';
+import 'package:todo_app/src/ui/shared/todo_config_item.dart';
+import 'package:todo_app/src/ui/theme/theme.dart';
 
 import 'dart:math';
 import '../../utils/constants.dart';
@@ -72,7 +72,11 @@ Widget _defaultItemBuilder(
         child: AnimatedOpacity(
           duration: const Duration(milliseconds: 210),
           opacity: isCurrentColor ? 1 : 0,
-          child: const Icon(Icons.done, color: Colors.black),
+          child: Icon(
+            Icons.done,
+            color: Colors.black,
+            size: 33.sp,
+          ),
         ),
       ),
     ),

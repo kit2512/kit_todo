@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../utils/screen_utils/custom_screenutil.dart';
+
 import 'package:intl/intl.dart';
-import 'package:toto_app/src/ui/shared/todo_config_item.dart';
-import 'package:toto_app/src/utils/theme.dart';
+import 'package:todo_app/src/ui/shared/todo_config_item.dart';
+import 'package:todo_app/src/ui/theme/theme.dart';
 
 class CustomDatePicker extends StatefulWidget {
   final DateTime initialDate;
@@ -56,7 +57,10 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
           ),
           IconButton(
             onPressed: onPressed,
-            icon: const Icon(Icons.calendar_today_outlined),
+            icon: Icon(
+              Icons.calendar_today_outlined,
+              size: 24.sp,
+            ),
           ),
         ],
       ),
