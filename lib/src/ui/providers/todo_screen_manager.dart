@@ -42,6 +42,7 @@ class TodoScreenManager extends ChangeNotifier {
   }
 
   bool validateTaskConfig() {
+    print("hello" + _currentTodo.name);
     if (!TaskValidator.isValidName(_currentTodo.name)) {
       errorText = "Invalid name";
       notifyListeners();

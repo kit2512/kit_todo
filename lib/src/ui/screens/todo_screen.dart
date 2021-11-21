@@ -47,6 +47,9 @@ class TodoScreen extends StatelessWidget {
       builder: (context, manager, child) {
         final _nameController = TextEditingController()
           ..text = manager.currentTodo.name;
+        _nameController.addListener(() {
+          manager.upDateTodoName(_nameController.text);
+        });
         return ListView(
           padding: EdgeInsets.only(
             top: 14.h,
@@ -73,7 +76,6 @@ class TodoScreen extends StatelessWidget {
                   ),
                   errorText: manager.errorText,
                 ),
-                // onChanged: manager.upDateTodoName,
               ),
             ),
             CustomColorPicker(
