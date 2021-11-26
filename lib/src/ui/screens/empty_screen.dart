@@ -16,7 +16,10 @@ class EmptyScreen extends StatelessWidget {
         SizedBox(
           height: 20.h,
         ),
-        const Text("It seems we have nothing here")
+        Text(
+          "It seems we have nothing here",
+          style: TextStyle(fontSize: 14.sp),
+        )
       ],
     );
   }
