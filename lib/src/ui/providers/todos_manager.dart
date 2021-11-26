@@ -24,7 +24,12 @@ class TodoManager extends ChangeNotifier {
     if (_selectedCategory == Categories.completed) {
       return _todos.where((element) => element.isComplete).toList();
     } else if (_selectedCategory == Categories.today) {
-      return _todos;
+      final now = DateTime.now();
+      final nextDay = DateTime(now.year, now.month, now.day + 1);
+      return _todos
+          .where((todo) =>
+              todo.dueDate.difference(nextDay) < const Duration(days: 1))
+          .toList();
     } else {
       return _todos;
     }
